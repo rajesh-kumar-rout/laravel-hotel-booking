@@ -93,6 +93,8 @@ Route::prefix('auth')->group(function(){
 
     Route::view('/register', 'auth.register')->name('auth.register');
 
+    Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
+
     Route::view('/edit-account', 'auth.edit-account')->name('auth.edit-account');
 
     Route::patch('/edit-account', [AuthController::class, 'editAccount'])->name('auth.edit-account');

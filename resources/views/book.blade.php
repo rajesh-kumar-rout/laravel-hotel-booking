@@ -10,20 +10,18 @@
             <div class="card-body">
                 <div class="mb-3">
                     <label for="check_in" class="form-label">Check In Date</label>
-                    <input type="text" class="form-control" name="check_in" id="check_in" value="{{ old('check_in') }}">
-                    {{ old('check_out') }}
+                    <input type="date" class="form-control" name="check_in" id="check_in" value="{{ old('check_in', request()->query('check_in')) }}">
                     @error('check_in')
-                        <span class="text-danger mt-2 d-inline-block">{{ $message }}</span>
+                        <span class="text-danger mt-1 d-inline-block">{{ $message }}</span>
                     @enderror
                 </div>
 
                 <div class="mb-3">
                     <label for="check_out" class="form-label">Check Out Date</label>
-                    <input type="date" class="form-control" name="check_out" id="check_out" value="{{ old('check_out') }}">
-                </div>
-                <div class="mb-3">
-                    <label for="check_out" class="form-label">Check Out Date</label>
-                    <input type="text" class="form-control" name="name" id="check_out" value="{{ old('name') }}">
+                    <input type="date" class="form-control" name="check_out" id="check_out" value="{{ old('check_out', request()->query('check_out')) }}">
+                    @error('check_out')
+                        <span class="text-danger mt-1 d-inline-block">{{ $message }}</span>
+                    @enderror
                 </div>
 
                 <button class="btn btn-primary">Book</button>

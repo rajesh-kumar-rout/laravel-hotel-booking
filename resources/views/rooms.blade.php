@@ -6,30 +6,30 @@
         <div class="col-12 col-md-3 mb-4 mb-md-0">
             <div class="card text-bg-primary">
                 <div class="card-header">Search</div>
-                <div class="card-body">
+                <form class="card-body" action="{{ route('rooms.index') }}" method="GET">
                     <div class="mb-3">
-                        <label for="check_in_date" class="form-label text-white">Check In Date</label>
-                        <input type="email" class="form-control" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="check_in" class="form-label text-white">Check In Date</label>
+                        <input type="date" class="form-control" id="check_in" name="check_in" value="{{ request()->query('check_in') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="check_in_date" class="form-label text-white">Check Out Date</label>
-                        <input type="email" class="form-control" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="check_out" class="form-label text-white">Check Out Date</label>
+                        <input type="date" class="form-control" id="check_out" name="check_out" value="{{ request()->query('check_out') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="check_in_date" class="form-label text-white">Adults</label>
-                        <input type="email" class="form-control" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="adults" class="form-label text-white">Adults</label>
+                        <input type="number" class="form-control" id="adults" name="adults" value="{{ request()->query('adults') }}">
                     </div>
                     <div class="mb-3">
-                        <label for="check_in_date" class="form-label text-white">Children</label>
-                        <input type="email" class="form-control" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="children" class="form-label text-white">Children</label>
+                        <input type="number" class="form-control" id="children" name="children" value="{{ request()->query('children') }}">
                     </div>
                     <button class="btn btn-warning">Check Availability</button>
-                </div>
+                </form>
             </div>
         </div>
 
         <div class="col-12 col-md-9">
-            <div class="d-flex align-items-start justify-content-start gap-3">
+            <div class="d-flex flex-column align-items-start justify-content-start gap-3">
                 @foreach ($rooms as $room)
                 <div class="card card-body">
                     <div class="row">
@@ -57,7 +57,7 @@
                                     justify-content-start justify-content-md-center flex-column border-start room-right"
                                 >
                                     <h3>₹ {{ $room->price }}</h3>
-                                    <a href="{{ route('bookings.create', ['room' => $room->id]) }}" class="btn btn-primary btn-sm">Book</a>
+                                    <a href="{{ route('bookings.create', ['room' => $room->id, 'check_in' => request()->query('check_in'), 'check_out' => request()->query('check_out')]) }}" class="btn btn-primary btn-sm">Book</a>
                                 </div>
                             </div>
                         </div>

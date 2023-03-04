@@ -6,13 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Booking;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Query\Builder;
 
 class BookingController extends Controller
 {
     public function index(Request $request)
-    {dd($request->user()->bookings()->with('facilities')->get()->toArray());
-        return view('booking', [
-            'booking' => $room 
+    {
+        $bookings = $request->user()->bookings()->with('facilities')->orderByPivot('created_at', 'desc')->get();
+        return view('my-bookings', [
+            'bookings' => $bookings 
         ]);
     }
 
@@ -32,25 +34,42 @@ class BookingController extends Controller
 
         if($request->check_in > $request->check_out)
         {
-            return back()->withErrors(['check_in' => 'Invalid check in date'])->withInputs($request->all());
+            return back()->withErrors(['check_in' => 'Invalid check in date'])->withInput();
         }
 
         $is_booked = DB::table('room_user')
-            ->where(fn($query) => $query->where('check_in', '<', $request->check_in)
-                                ->where('check_out', '>', $request->check_in))
-            
-            ->orWhere(fn($query) =>  $query->where('check_in', '=', $request->check_in))
+            ->where('room_id', $room->id)
 
-            ->orWhere(fn($query) =>  $query->where('check_in', '<', $request->check_out)
-                                    ->where('check_out', '>=', $request->check_out))
-            
-            ->orWhere(fn($query) =>  $query->where('check_in', '<', $request->check_out)
-                                ->where('check_out', '<', $request->check_out)
-                                ->where('check_in', '>', $request->check_in))
+            ->where(function($query) use ($request){
+                $query->where('check_in', '<', $request->check_in)
+                    ->where('check_out', '>', $request->check_in);
 
+                $query->where(function(Builder $query) use ($request){
+                    $query->where('check_in', '<', $request->check_in)
+                        ->where('check_out', '>', $request->check_in);
+                });
+
+                $query->orWhere(function(Builder $query) use ($request){
+                    $query->orWhere('check_in', '=', $request->check_in);
+                });
+
+                $query->orWhere(function(Builder $query) use ($request){
+                    $query->where('check_in', '<', $request->check_out)
+                        ->where('check_out', '>=', $request->check_out);
+                });
+
+                $query->orWhere(function(Builder $query) use ($request){
+                    $query->where('check_in', '<', $request->check_out)
+                        ->where('check_out', '<', $request->check_out)
+                        ->where('check_in', '>', $request->check_in);
+                });
+            })
             ->exists();
 
-            dd($is_booked);
+        if($is_booked)
+        {
+            return back()->withErrors(['check_in' => 'Room not available on this date'])->withInput();
+        }
                             
         
         $request->user()->bookings()->attach($room->id, [
@@ -58,6 +77,6 @@ class BookingController extends Controller
             'check_out' => $request->check_out,
         ]);
 
-        return back();
+        return redirect()->route('bookings.index')->with('success', 'Room booked successfully');
     }
 }

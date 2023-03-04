@@ -37,30 +37,30 @@
 
       <div class="card text-bg-primary mt-5">
         <div class="card-body">
-            <div class="d-flex flex-column flex-md-row gap-2">
+            <form action="{{ route('rooms.index') }}" method="GET" class="d-flex flex-column flex-md-row gap-2">
                 <div class="row g-2" style="flex: 1">
                     <div class="col-12 col-md-3 mb-3 mb-md-0">
-                        <label for="check_in_date" class="form-label text-white">Check In Date</label>
-                        <input type="date" class="form-control w-100" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="check_in" class="form-label text-white">Check In Date</label>
+                        <input type="date" class="form-control w-100" id="check_in" name="check_in">
                     </div>
                     <div class="col-12 col-md-3 mb-3 mb-md-0">
-                        <label for="check_in_date" class="form-label text-white">Check Out Date</label>
-                        <input type="date" class="form-control w-100" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="check_out" class="form-label text-white">Check Out Date</label>
+                        <input type="date" class="form-control w-100" id="check_out" name="check_out">
                     </div>
                     <div class="col-12 col-md-3 mb-3 mb-md-0">
-                        <label for="check_in_date" class="form-label text-white">Adults</label>
-                        <input type="number" class="form-control w-100" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="adults" class="form-label text-white">Adults</label>
+                        <input type="number" class="form-control w-100" id="adults" name="adults">
                     </div>
                     <div class="col-12 col-md-3">
-                        <label for="check_in_date" class="form-label text-white">Children</label>
-                        <input type="number" class="form-control w-100" id="check_in_date" aria-describedby="emailHelp">
+                        <label for="children" class="form-label text-white">Children</label>
+                        <input type="number" class="form-control w-100" id="children" name="children">
                     </div>
                 </div>
                 <div>
                     <label class="form-label"></label>
                     <button class="btn btn-warning d-block mt-0 mt-md-2">Check Availability</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

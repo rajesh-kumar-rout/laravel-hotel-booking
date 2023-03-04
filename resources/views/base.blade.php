@@ -21,10 +21,19 @@
                 border: none !important;
             }
         }
+        .booking-room:last-child{
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+            border-width: 0px !important;
+        }
     </style>
 </head>
 
 <body>
+
+    @if (request()->user() && request()->user()->is_admin)
+        <a class="bg-white py-2 text-end px-4 d-block" href="{{ route('admin.dashboard') }}">Admin Panel</a>
+    @endif
 
     <nav class="navbar navbar-expand-lg bg-primary" data-bs-theme="dark">
         <div class="container">
@@ -69,7 +78,7 @@
                                 Account
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('my-bookings') }}">My Bookings</a></li>
+                                <li><a class="dropdown-item" href="{{ route('bookings.index') }}">My Bookings</a></li>
                                 <li><a class="dropdown-item" href="{{ route('auth.edit-account') }}">Edit Account</a></li>
                                 <li><a class="dropdown-item" href="{{ route('auth.change-password') }}">Change Password</a></li>
                                 <li>

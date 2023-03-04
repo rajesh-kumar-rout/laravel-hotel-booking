@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function bookings()
     {
-        return $this->belongsToMany(Room::class)->withPivot('check_in', 'check_out');
+        return $this->belongsToMany(Room::class)->withPivot('check_in', 'check_out')->withTimestamps();
     }
 }
