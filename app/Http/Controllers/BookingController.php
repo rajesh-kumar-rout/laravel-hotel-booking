@@ -13,9 +13,19 @@ class BookingController extends Controller
     public function index(Request $request)
     {
         $bookings = $request->user()->bookings()->with('facilities')->orderByPivot('created_at', 'desc')->get();
+        // dd($bookings->toArray());
         return view('my-bookings', [
             'bookings' => $bookings 
         ]);
+    }
+
+    public function cancel(Request $request, Booking $booking)
+    {
+        $booking->is_canceled = true;
+
+        $booking->save();
+        
+        return back();
     }
 
     public function create(Room $room)

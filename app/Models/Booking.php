@@ -9,16 +9,7 @@ use App\Models\Room;
 
 class Booking extends Model
 {
+    protected $table = 'room_user';
+
     use HasFactory;
-
-    protected $fillable = ['user_id', 'check_in', 'check_out', 'room_id'];
-
-    public function user()
-    {
-        return $this->hasOne(User::class);
-    }
-    public function room()
-    {
-        return $this->hasOne(Room::class);
-    }
 }

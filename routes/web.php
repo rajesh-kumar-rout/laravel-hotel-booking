@@ -11,6 +11,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +84,8 @@ Route::prefix('bookings')->group(function(){
     Route::get('/{room}/create', [BookingController::class, 'create'])->name('bookings.create');
 
     Route::post('/{room}/store', [BookingController::class, 'store'])->name('bookings.store');
+
+    Route::patch('/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
 });
 
 Route::prefix('auth')->group(function(){
@@ -167,7 +170,7 @@ Route::prefix('admin')->middleware('auth', 'can:admin')->group(function(){
 
     Route::prefix('bookings')->group(function(){
         
-        Route::view('/', 'admin.bookings')->name('admin.bookings.index');
+        Route::get('/', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
     });
 
     Route::prefix('users')->group(function(){

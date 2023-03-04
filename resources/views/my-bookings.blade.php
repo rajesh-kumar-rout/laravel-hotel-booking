@@ -11,11 +11,11 @@
               @foreach ($bookings as $booking)
               <div class="border-bottom border-2 pb-3 mb-3 booking-room">
                 <div class="row">
-                    <div class="col-12 col-md-2">
+                    <div class="col-12 col-md-3">
                         <img  class="img-fluid" src="/uploads/{{ $booking->image_url }}">
                     </div>
 
-                    <div class="col-12 col-md-10">
+                    <div class="col-12 col-md-9">
                         <div class="row">
                             <div class="col-12 col-md-9 mt-2 mt-md-0">
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="fw-bold text-primary">{{ $booking->name }}</a>
@@ -31,13 +31,22 @@
                             </div>
 
                             <div 
-                                class="mt-3 mt-md-0 col-12 col-md-3 d-flex gap-2 align-items-start align-items-md-center  
+                                class="mt-3 mt-md-0 col-12 col-md-3 d-flex gap-3 align-items-start align-items-md-center  
                                 justify-content-start justify-content-md-center flex-column border-start room-right"
                             >
-                              <p>Check In  - {{ $booking->pivot->check_in }}</p>
-                              <p>Check Out - {{ $booking->pivot->check_out }}</p>
-                              <p>Room NO - {{ $booking->room_no }}</p>
+                              <p class="mb-0">Check In  - {{ $booking->pivot->check_in }}</p>
+                              <p class="mb-0">Check Out - {{ $booking->pivot->check_out }}</p>
+                              <p class="mb-0">Room NO - {{ $booking->room_no }}</p>
                                 <h3>₹ {{ $booking->price }}</h3>
+                                @if ((date('Y-m-d') < $booking->pivot->check_in) && ($booking->pivot->is_canceled == 0))
+                                <form action="{{ route('bookings.cancel', ['booking' => $booking->pivot->id]) }}" method="POST">
+                                    @csrf
+                                    @method('PATCH')
+                                <button type="submit" class="btn btn-sm btn-warning">Cancel Booking</button>
+                                    
+                                </form>
+                                    
+                                @endif
                             </div>
                         </div>
                     </div>
