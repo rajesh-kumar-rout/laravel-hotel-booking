@@ -20,6 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->unsignedBigInteger('user_id');
+            $table->boolean('is_canceled')->default(false);
             $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });

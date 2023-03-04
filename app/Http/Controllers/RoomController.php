@@ -15,27 +15,38 @@ class RoomController extends Controller
         {
             return redirect()->route('rooms.index');
         }
-        if($request->check_in)
+
+        if($request->check_in && $request->check_out)
         {
-            $room_ids = DB::table('room_user')
-            ->where(fn($query) => $query->where('check_in', '<', $request->check_in)
-                                ->where('check_out', '>', $request->check_in))
-            
-            ->orWhere(fn($query) =>  $query->where('check_in', '=', $request->check_in))
+            $booked_room_ids = DB::table('room_user')
+                ->where('is_canceled', false)
+                ->where(function($query) use ($request){
 
-            ->orWhere(fn($query) =>  $query->where('check_in', '<', $request->check_out)
-                                    ->where('check_out', '>=', $request->check_out))
-            
-            ->orWhere(fn($query) =>  $query->where('check_in', '<', $request->check_out)
+                    $query->where(function($query) use ($request){
+                        $query->where('check_in', '<', $request->check_in)
+                            ->where('check_out', '>', $request->check_in);
+                    });
+
+                    $query->orWhere(function($query) use ($request){
+                        $query->where('check_in', '=', $request->check_in);
+                    });
+
+                    $query->orWhere(function($query) use ($request){
+                        $query->where('check_in', '<', $request->check_out)
+                            ->where('check_out', '>=', $request->check_out);
+                    });
+
+                    $query->orWhere(function($query) use ($request){
+                            $query->where('check_in', '<', $request->check_out)
                                 ->where('check_out', '<', $request->check_out)
-                                ->where('check_in', '>', $request->check_in))
-->select('room_id')
-            ->get()
-            ->map(fn($room) => $room->room_id);
+                                ->where('check_in', '>', $request->check_in);
+                    });
+                })
+                ->select('room_id')
+                ->get()
+                ->map(fn($room) => $room->room_id);
 
-        // dd($room_ids);
-
-            $query = Room::whereNotIn('id', $room_ids);
+            $query = Room::whereNotIn('id', $booked_room_ids);
 
             if($request->adults)
             {
@@ -49,11 +60,8 @@ class RoomController extends Controller
             
             $rooms = $query->with('facilities')->get();
 
-        return view('rooms', ['rooms' => $rooms]);
-
+            return view('rooms', ['rooms' => $rooms]);
         }
-
-
 
         $rooms = Room::with('facilities')->get();
 

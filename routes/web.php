@@ -24,6 +24,14 @@ use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 |
 */
 
+Route::get('/migrate', function(){
+    return \Artisan::call('migrate'); 
+});
+
+Route::get('/seed', function(){
+    return \Artisan::call('db:seed'); 
+});
+
 
 Route::get('/contact', function () {
     return view('contact');
