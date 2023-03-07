@@ -33,7 +33,7 @@
                   </td>
                   <td>{{ $slider->title }}</td>
                   <td>{{ $slider->description }}</td>
-                  <td>{{ $slider->updated_at }}</td>
+                  <td>{{ date('d-m-Y', strtotime($slider->updated_at)) }}</td>
                   <td>
                    <div class="d-flex gap-1">
                     <a href="{{ route('admin.sliders.edit', ['slider' => $slider->id]) }}" class="btn btn-warning btn-sm">

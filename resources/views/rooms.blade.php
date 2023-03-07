@@ -29,6 +29,10 @@
         </div>
 
         <div class="col-12 col-md-9">
+            @if (count($rooms) == 0)
+            <div class="alert alert-danger">No Room Found</div>
+            @endif
+
             <div class="d-flex flex-column align-items-start justify-content-start gap-3">
                 @foreach ($rooms as $room)
                 <div class="card card-body">
@@ -40,14 +44,19 @@
                         <div class="col-12 col-md-9">
                             <div class="row">
                                 <div class="col-12 col-md-9 mt-2 mt-md-0">
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="fw-bold text-primary">{{ $room->name }}</a>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#gallery" class="fw-bold text-primary">{{ $room->name }}</a>
+                                    
                                     <p class="mb-2 mt-2">{{ $room->description }}</p>
+                                    
                                     <p class="mb-2">{{ $room->beds }}</p>
+                                    
                                     <p class="mb-2">Adults - {{ $room->adults }}</p>
+                                    
                                     <p class="mb-2">Children - {{ $room->children }}</p>
+                                    
                                     <div class="d-flex flex-wrap gap-1">
                                         @foreach ($room->facilities as $facility)
-                                            <div class="badge bg-secondary">{{ $facility->name }}</div>
+                                        <div class="badge bg-secondary">{{ $facility->name }}</div>
                                         @endforeach
                                     </div>
                                 </div>
@@ -57,6 +66,7 @@
                                     justify-content-start justify-content-md-center flex-column border-start room-right"
                                 >
                                     <h3>₹ {{ $room->price }}</h3>
+                                    
                                     <a href="{{ route('bookings.create', ['room' => $room->id, 'check_in' => request()->query('check_in'), 'check_out' => request()->query('check_out')]) }}" class="btn btn-primary btn-sm">Book</a>
                                 </div>
                             </div>
@@ -68,34 +78,4 @@
         </div>
     </div>
 </div>
-
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Dulexe Double Room Gallery</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <div class="row g-2">
-            <div class="col-3">
-                <img class="img-fluid" src="https://cf.bstatic.com/xdata/images/hotel/square600/325771439.webp?k=342e764eea956b500cbda2cdd1c4d065fa9cf3cd6d334eb4959861424707408e&o=&s=1" alt="">
-            </div>
-            <div class="col-3">
-                <img class="img-fluid" src="https://cf.bstatic.com/xdata/images/hotel/square600/325771439.webp?k=342e764eea956b500cbda2cdd1c4d065fa9cf3cd6d334eb4959861424707408e&o=&s=1" alt="">
-            </div>
-            <div class="col-3">
-                <img class="img-fluid" src="https://cf.bstatic.com/xdata/images/hotel/square600/325771439.webp?k=342e764eea956b500cbda2cdd1c4d065fa9cf3cd6d334eb4959861424707408e&o=&s=1" alt="">
-            </div>
-            <div class="col-3">
-                <img class="img-fluid" src="https://cf.bstatic.com/xdata/images/hotel/square600/325771439.webp?k=342e764eea956b500cbda2cdd1c4d065fa9cf3cd6d334eb4959861424707408e&o=&s=1" alt="">
-            </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
 @endsection

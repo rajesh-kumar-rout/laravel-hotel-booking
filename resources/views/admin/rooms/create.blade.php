@@ -6,15 +6,7 @@
 
     <div class="card">
         <div class="card-header fw-bold text-primary">Create New Room</div>
-        @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+     
         <form enctype="multipart/form-data" action="{{ route('admin.rooms.store') }}" class="card-body" method="POST" novalidate>
             @csrf
 
@@ -94,7 +86,7 @@
                 @enderror
             </div>
 
-            <button class="btn btn-primary">Save</button>
+            <button type="submit" class="btn btn-primary">Save</button>
         </form>
     </div>
 </div>

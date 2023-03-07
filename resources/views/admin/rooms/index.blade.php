@@ -10,17 +10,17 @@
         <div class="card-header fw-bold text-primary">Rooms</div>
         <div class="card-body">
           <div class="table-responsive">
-            <table class="table table-bordered" style="min-width: 1024px">
+            <table class="table table-bordered" style="min-width: 1400px">
               <thead>
                 <tr>
-                  <th scope="col">Room No</th>
-                  <th scope="col">Name</th>
-                  <th scope="col">Description</th>
-                  <th scope="col">Beds</th>
-                  <th scope="col">Image</th>
-                  <th scope="col">Member Allowed</th>
-                  <th scope="col">Last Updated</th>
-                  <th scope="col"></th>
+                  <th scope="col" width="8%">Room No</th>
+                  <th scope="col" width="15%">Name</th>
+                  <th scope="col" width="23%">Description</th>
+                  <th scope="col" width="10%">Beds</th>
+                  <th scope="col" width="10%">Image</th>
+                  <th scope="col" width="12%">Member</th>
+                  <th scope="col" width="12%">Updated</th>
+                  <th scope="col" width="10%"></th>
                 </tr>
               </thead>
               <tbody>
@@ -44,7 +44,7 @@
                       <p>Adults : {{ $room->adults }}</p>
                     </div>
                   </td>
-                  <td>{{ $room->updated_at }}</td>
+                  <td>{{ date('d-m-Y', strtotime($room->updated_at)) }}</td>
                   <td>
                    <div class="d-flex gap-1">
                     <a href="{{ route('admin.rooms.edit', ['room' => $room->id]) }}" class="btn btn-warning btn-sm">

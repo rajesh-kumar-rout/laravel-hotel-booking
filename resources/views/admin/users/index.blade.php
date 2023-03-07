@@ -27,7 +27,7 @@
                         <td scope="row">{{ $user->id }}</td>
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->created_at }}</td>
+                        <td>{{ date('d-m-Y', strtotime($user->created_at)) }}</td>
                     </tr>
                 @endforeach
               </tbody>

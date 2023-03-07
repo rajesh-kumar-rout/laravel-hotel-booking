@@ -31,10 +31,10 @@
               <tbody>
                 @foreach ($bookings as $booking)
                 <tr>
-                  <th scope="row">{{ $booking->room_no }}</th>
+                  <td>{{ $booking->room_no }}</td>
                   <td>{{ $booking->email }}</td>
-                  <td>{{ $booking->check_in }}</td>
-                  <td>{{ $booking->check_out }}</td>
+                  <td>{{ date('d-m-Y', strtotime($booking->check_in)) }}</td>
+                  <td>{{ date('d-m-Y', strtotime($booking->check_out)) }}</td>
                 </tr>
                 @endforeach
               </tbody>

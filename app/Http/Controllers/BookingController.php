@@ -6,17 +6,15 @@ use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Booking;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Database\Query\Builder;
+use Illuminate\Database\Eloquent\Builder;
 
 class BookingController extends Controller
 {
     public function index(Request $request)
     {
         $bookings = $request->user()->bookings()->with('facilities')->orderByPivot('created_at', 'desc')->get();
-        // dd($bookings->toArray());
-        return view('my-bookings', [
-            'bookings' => $bookings 
-        ]);
+
+        return view('bookings', ['bookings' => $bookings]);
     }
 
     public function cancel(Request $request, Booking $booking)
@@ -30,9 +28,7 @@ class BookingController extends Controller
 
     public function create(Room $room)
     {
-        return view('book', [
-            'room' => $room 
-        ]);
+        return view('book', ['room' => $room]);
     }
 
     public function store(Request $request, Room $room)
@@ -47,10 +43,9 @@ class BookingController extends Controller
             return back()->withErrors(['check_in' => 'Invalid check in date'])->withInput();
         }
 
-        $is_booked = DB::table('room_user')
-            ->where('room_id', $room->id)
-
+        $is_booked = Booking::where('room_id', $room->id)
             ->where(function($query) use ($request){
+
                 $query->where('check_in', '<', $request->check_in)
                     ->where('check_out', '>', $request->check_in);
 
@@ -79,8 +74,7 @@ class BookingController extends Controller
         if($is_booked)
         {
             return back()->withErrors(['check_in' => 'Room not available on this date'])->withInput();
-        }
-                            
+        }        
         
         $request->user()->bookings()->attach($room->id, [
             'check_in' => $request->check_in,

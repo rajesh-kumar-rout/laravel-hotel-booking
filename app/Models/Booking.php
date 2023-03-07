@@ -9,7 +9,5 @@ use App\Models\Room;
 
 class Booking extends Model
 {
-    protected $table = 'room_user';
-
     use HasFactory;
 }

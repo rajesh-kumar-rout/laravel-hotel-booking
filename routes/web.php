@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\FacilityController;
 use App\Http\Controllers\Admin\RoomController as AdminRoomController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
@@ -11,18 +12,6 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
-use App\Http\Controllers\Admin\BookingController as AdminBookingController;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/migrate', function(){
     return \Artisan::call('migrate'); 
@@ -32,68 +21,29 @@ Route::get('/seed', function(){
     return \Artisan::call('db:seed'); 
 });
 
-
-Route::get('/contact', function () {
-    return view('contact');
-})->name('contact-us');
-Route::get('/change-password', function () {
-    return view('change-password');
-})->name('change-password');
-
-Route::get('/my-bookings', function () {
-    return view('my-bookings');
-})->name('my-bookings');
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-Route::get('/book', function () {
-    return view('book');
-})->name('book');
-
-
-
-Route::get('/booking-details', function () {
-    return view('booking-details');
-})->name('home');
-
-Route::get('/admin', function () {
-    return view('admin.dashboard');
-})->name('dashboard');
-
-Route::view('/admin/sliders/create', 'admin.create-slider')->name('admin.create-slider');
-Route::view('/admin/sliders/edit', 'admin.edit-slider')->name('admin.edit-slider');
-
-Route::view('/admin/facilities/create', 'admin.create-facility')->name('admin.create-facility');
-
-Route::view('/admin/facilities/edit', 'admin.edit-facility')->name('admin.edit-facility');
-Route::view('/admin/facilities', 'admin.facilities')->name('admin.facilities');
-
-Route::view('/admin/rooms', 'admin.rooms')->name('admin.rooms');
-Route::view('/admin/rooms/create', 'admin.create-room')->name('admin.rooms.create');
-Route::view('/admin/rooms/edit', 'admin.edit-room')->name('admin.rooms.edit');
-
 Route::get('/', [HomeController::class, 'index'])->name('index');
 
 Route::get('/about', [HomeController::class, 'about'])->name('about');
+
+Route::view('/contact', 'contact')->name('contact');
 
 Route::prefix('rooms')->group(function(){
         
     Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
 });
 
-Route::prefix('bookings')->group(function(){
+Route::middleware('auth')->group(function(){
+    
+    Route::prefix('bookings')->group(function(){
         
-    Route::get('/', [BookingController::class, 'index'])->name('bookings.index');
-
-    Route::get('/{room}/create', [BookingController::class, 'create'])->name('bookings.create');
-
-    Route::post('/{room}/store', [BookingController::class, 'store'])->name('bookings.store');
-
-    Route::patch('/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+        Route::get('/', [BookingController::class, 'index'])->name('bookings.index');
+    
+        Route::get('/{room}/create', [BookingController::class, 'create'])->name('bookings.create');
+    
+        Route::post('/{room}/store', [BookingController::class, 'store'])->name('bookings.store');
+    
+        Route::patch('/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+    });
 });
 
 Route::prefix('auth')->group(function(){
@@ -106,17 +56,19 @@ Route::prefix('auth')->group(function(){
 
     Route::post('/register', [AuthController::class, 'register'])->name('auth.register');
 
-    Route::view('/edit-account', 'auth.edit-account')->name('auth.edit-account');
+    Route::middleware('auth')->group(function(){
+        
+        Route::view('/edit-account', 'auth.edit-account')->name('auth.edit-account');
 
-    Route::patch('/edit-account', [AuthController::class, 'editAccount'])->name('auth.edit-account');
+        Route::patch('/edit-account', [AuthController::class, 'editAccount'])->name('auth.edit-account');
 
-    Route::view('/change-password', 'auth.change-password')->name('auth.change-password');
+        Route::view('/change-password', 'auth.change-password')->name('auth.change-password');
 
-    Route::patch('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
+        Route::patch('/change-password', [AuthController::class, 'changePassword'])->name('auth.change-password');
 
-    Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+        Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+    });
 });
-
 
 Route::prefix('admin')->middleware('auth', 'can:admin')->group(function(){
 

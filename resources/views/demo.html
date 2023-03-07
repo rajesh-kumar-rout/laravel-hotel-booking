@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hotel Booking</title>
+    <link 
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" 
+        rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" 
+        crossorigin="anonymous"
+    >
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap">
+    
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+    <style>
+        *{
+            font-family: 'Poppins', sans-serif;
+        }
+        .post-icon{
+            background-color: #ccc;
+            border-radius: 50%;
+            font-size: 28px;
+            height: 44px;
+            width: 44px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .home-form {
+            display: grid;
+            grid-auto-columns: reapt()
+        }
+
+        .post-loader{
+            position: absolute;
+            inset: 0;
+            background-color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+            gap: 8px;
+        }
+
+        .abc-c{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .abc{
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 6px;
+            background-color: #6c757d;
+            color: #FFFFFF;
+            display: inline-block;
+        }
+
+        @media(max-width: 768px) {
+            .room-right {
+                border: none !important;
+            }
+        }
+
+        .booking-room:last-child{
+            padding-bottom: 0px !important;
+            margin-bottom: 0px !important;
+            border-width: 0px !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="modal" id="editModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+                <p class="fw-bold text-primary mb-0">Edit Post</p>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="" class="form-label">Description</label>
+                <textarea name="" cols="20" rows="5" class="description form-control"></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="" class="form-label">Image</label>
+                <input type="file" name="" class="form-control" id="">
+                <img src="" alt="" class="img img-fluid mt-2" height="120" width="120">
+              </div>
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary">Update</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <div class="container">
+        <div class="d-flex flex-column flex-md-row align-items-start gap-4 justify-content-center">
+            <div class="d-flex flex-column gap-3">
+                <div class="card mx-auto post" style="max-width: 700px; position: relative;">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div class=" d-flex align-items-center gap-3">
+                            <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="border-radius: 50%; height: 50px; object-fit: cover; width: 50px;">
+                            <div>
+                                <p class="h6 fw-bold text-primary mb-1">Rajesh Rout</p>
+                                <p class="text-muted mb-0">4 hous ago</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <div class="post-loader">
+                                <div class="spinner-border spinner-border-sm me-1" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                                Loading...
+                            </div>
+                            <div class="dropdown">
+                                <span class="material-icons" type="button" data-bs-toggle="dropdown" aria-expanded="false">more_vert</span>
+                                <ul class="dropdown-menu">
+                                  <li><a class="dropdown-item" href="#" onclick="editPost(event, 1)">Edit</a></li>
+                                  <li><a class="dropdown-item" href="#" onclick="deletePost(event, 1)">Delete</a></li>
+                                  <li><a class="dropdown-item" href="#">Mark as favorite</a></li>
+                                </ul>
+                              </div>
+                        </div>
+                 
+                    </div>
+            
+                    <p class="px-3 text-muted description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi fuga exercitationem consequuntur fugiat odio fugit nemo similique. Reiciendis, necessitatibus veritatis.</p>
+            
+            
+                    <img src="https://cdn.pixabay.com/photo/2023/02/14/18/55/flowers-7790227_640.jpg" class="img-fluid img" alt="">
+            
+            
+                    <div class="card-body d-flex justify-content-between">
+                        <div class="d-flex gap-2">
+                            <span class="material-icons post-icon">favorite_border</span>
+                            <span class="material-icons post-icon" onclick="handleCommentToggle(event)">
+                                chat_bubble_outline
+                                </span>
+
+                                <span class="material-icons post-icon">
+                                    share
+                                    </span>
+                        </div>
+                        <span class="text-muted"><span class="like-count">3</span> likes, <span class="comment-count">34</span> comments</span>
+                    </div>
+            
+
+                </div>
+                <div class="card mx-auto post" style="max-width: 700px;">
+                    <div class="card-body d-flex align-items-center justify-content-between">
+                        <div class=" d-flex align-items-center gap-3">
+                            <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="border-radius: 50%; height: 50px; object-fit: cover; width: 50px;">
+                            <div>
+                                <p class="h6 fw-bold text-primary mb-1">Rajesh Rout</p>
+                                <p class="text-muted mb-0">4 hous ago</p>
+                            </div>
+                        </div>
+
+                        <div class="dropdown">
+                            <span class="material-icons" type="button" data-bs-toggle="dropdown" aria-expanded="false">more_vert</span>
+                            <ul class="dropdown-menu">
+                              <li><a class="dropdown-item" href="#">Edit</a></li>
+                              <li><a class="dropdown-item" href="#">Delete</a></li>
+                              <li><a class="dropdown-item" href="#">Mark as favorite</a></li>
+                            </ul>
+                          </div>
+                    </div>
+            
+                    <p class="px-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi fuga exercitationem consequuntur fugiat odio fugit nemo similique. Reiciendis, necessitatibus veritatis.</p>
+            <div class="abc-c">
+                <span class="abc">Hand Sanitizer</span>
+                <span class="abc">City View</span>
+                <span class="abc">TV</span>
+                <span class="abc">Flat-screen TV</span>
+                <span class="abc">Private Bathroom</span>
+            </div>
+            
+                    <img src="https://cdn.pixabay.com/photo/2023/02/14/18/55/flowers-7790227_640.jpg" class="img-fluid" alt="">
+            
+            
+                    <div class="card-body d-flex justify-content-between">
+                        <div class="d-flex gap-2">
+                            <span class="material-icons post-icon">favorite_border</span>
+                            <span class="material-icons post-icon" onclick="handleCommentToggle(event)">
+                                chat_bubble_outline
+                                </span>
+
+                                <span class="material-icons post-icon">
+                                    share
+                                    </span>
+                        </div>
+                        <span class="text-muted">3 likes, 34 comments</span>
+                    </div>
+            
+
+                </div>
+            </div>
+            <div class="card" style="min-width: 300px;">
+                <div class="card-header fw-bold text-primary">Suggested For You</div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;" alt="">
+                        <a href="" class="fw-bold text-decoration-none">Rajesh Rout</a>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 border-top pt-2 mt-2">
+                        <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;" alt="">
+                        <a href="" class="fw-bold text-decoration-none">Rajesh Rout</a>
+                    </div>
+                    <div class="d-flex align-items-center gap-3 border-top pt-2 mt-2">
+                        <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 50px; width: 50px; border-radius: 50%; object-fit: cover;" alt="">
+                        <a href="" class="fw-bold text-decoration-none">Rajesh Rout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script 
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"
+    >
+    </script>
+
+    <script>
+        function deletePost(event, postId) {
+            const postElement = event.target.closest(".post")
+            const postLoaderElement = postElement.querySelector(".post-loader")
+            postLoaderElement.style.display = "flex"
+
+            setTimeout(() => {
+                postElement.remove()
+            }, 3000);
+        }
+
+        function editPost(event, postId) {
+            const postElement = event.target.closest(".post")
+
+            const description = postElement.querySelector(".description").innerHTML
+            const img = postElement.querySelector(".img").src
+
+            const editModal = document.querySelector("#editModal")
+
+
+            editModal.querySelector(".description").innerHTML = description
+            editModal.querySelector(".img").src = img 
+            const editModalRoot = new bootstrap.Modal('#editModal', {})
+            editModalRoot.show()
+        }
+        function addComment(event) {
+            event.preventDefault()
+
+            const commentForm = event.target 
+
+            const submitBtnElement = event.target.querySelector("button[type=submit]")
+            submitBtnElement.disabled = true
+
+            submitBtnElement.innerHTML = `
+            <div class="spinner-border spinner-border-sm me-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Loading...
+            `
+
+            setTimeout(() => {
+                const postElement = event.target.closest(".post")
+                const commentCountElement = postElement.querySelector(".comment-count")
+                commentCountElement.innerHTML = Number(commentCountElement.innerHTML) + 1
+
+                submitBtnElement.disabled = false
+                submitBtnElement.innerHTML = 'Add Comment'
+                const commentElement = document.createElement("div")
+                commentElement.classList.add("card")
+                commentElement.innerHTML = `
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 30px; width: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                        <p class="fw-bold text-primary mb-0">John Doe</p>
+                    </div>
+                    <span class="text-muted">4 hours ago</span>
+                </div>
+                <p class="card-body text-muted mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis aspernatur animi voluptate eveniet. Quam iste fugit amet cupiditate?</p>
+                `
+                event.target.nextElementSibling.prepend(commentElement)
+            }, 3000);
+        }
+
+        function handleCommentToggle(event) {
+            const postElement = event.target.closest('.post')
+
+            let commentBoxElement = postElement.querySelector('.comment-box')
+
+            if(commentBoxElement){
+                commentBoxElement.remove()
+                return
+            }
+
+            const commentElement = document.createElement("div")
+            commentElement.classList.add("card-body")
+            commentElement.classList.add("border-top")
+            commentElement.classList.add("comment-box")
+            commentElement.style.borderWidth = '2px !important'
+            commentElement.innerHTML = `
+            <div class="text-center">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            </div>
+            `
+
+            postElement.appendChild(commentElement)
+
+            commentBoxElement = postElement.querySelector('.comment-box')
+
+            setTimeout(() => {
+                commentBoxElement.innerHTML = `
+                <form onsubmit="addComment(event)">
+                    <label for="" class="form-label fw-bold text-primary">Your Comment</label>
+                    <textarea name="" id="" class="form-control"></textarea>
+                    <button type="submit" class="btn btn-sm btn-primary mt-3">Add Comment</button>
+                </form>
+                <div class="mt-4 d-flex flex-column gap-3">
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 30px; width: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                                <p class="fw-bold text-primary mb-0">Rajesh Rout</p>
+                            </div>
+                            <span class="text-muted">4 hours ago</span>
+                        </div>
+                        <p class="card-body text-muted mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis aspernatur animi voluptate eveniet. Quam iste fugit amet cupiditate?</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 30px; width: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                                <p class="fw-bold text-primary mb-0">Rajesh Rout</p>
+                            </div>
+                            <span class="text-muted">4 hours ago</span>
+                        </div>
+                        <p class="card-body text-muted mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis aspernatur animi voluptate eveniet. Quam iste fugit amet cupiditate?</p>
+                    </div>
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 30px; width: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                                <p class="fw-bold text-primary mb-0">Rajesh Rout</p>
+                            </div>
+                            <span class="text-muted">4 hours ago</span>
+                        </div>
+                        <p class="card-body text-muted mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis aspernatur animi voluptate eveniet. Quam iste fugit amet cupiditate?</p>
+                        <div class="card-footer text-end">
+                            <button class="btn btn-sm btn-danger d-inline-flex align-items-center" onclick="deleteComment(event, 1)">Delete</button>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center gap-3">
+                                <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 30px; width: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                                <p class="fw-bold text-primary mb-0">Rajesh Rout</p>
+                            </div>
+                            <span class="text-muted">4 hours ago</span>
+                        </div>
+                        <p class="card-body text-muted mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis aspernatur animi voluptate eveniet. Quam iste fugit amet cupiditate?</p>
+                    </div>
+                    <a onclick="loadMore(event, 1)" class="font-semibold" style="cursor: pointer">Load more</a>
+                </div>
+                `
+            }, 500)
+        }
+
+        function loadMore(event, postId) {
+            event.preventDefault()
+            const commentListElement = event.target.parentElement
+
+            const spinnerDivElement = document.createElement("div")
+            spinnerDivElement.classList.add('d-flex')
+            spinnerDivElement.classList.add('align-items-center')
+            spinnerDivElement.classList.add('gap-1')
+            spinnerDivElement.innerHTML = `
+            <div class="spinner-border spinner-border-sm me-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <span>Loading...</span>
+            `
+
+            commentListElement.appendChild(spinnerDivElement)
+            event.target.remove()
+
+            setTimeout(() => {
+                
+                spinnerDivElement.remove()
+
+                const commentElement = document.createElement("div")
+                commentElement.classList.add("card")
+                commentElement.innerHTML = `
+                <div class="card-header d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-3">
+                        <img src="https://media.istockphoto.com/id/1368424494/photo/studio-portrait-of-a-cheerful-woman.jpg?b=1&s=170667a&w=0&k=20&c=VEE1756TeCzYH2uPsFZ_P8H3Di2j_jw8aOT6zd7V8JY=" style="height: 30px; width: 30px; border-radius: 50%; object-fit: cover;" alt="">
+                        <p class="fw-bold text-primary mb-0">Rajesh Rout</p>
+                    </div>
+                    <span class="text-muted">4 hours ago</span>
+                </div>
+                <p class="card-body text-muted mb-0">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Facilis aspernatur animi voluptate eveniet. Quam iste fugit amet cupiditate?</p>
+                `
+
+                commentListElement.appendChild(commentElement)
+
+                const linkElement = document.createElement("a")
+                linkElement.classList.add("font-semibold")
+                linkElement.innerHTML = 'Load more'
+                linkElement.style.cursor = "pointer"
+                linkElement.addEventListener("click", (event) => loadMore(event, 2))
+
+                commentListElement.appendChild(linkElement)
+
+            }, 3000);
+        }
+
+        function deleteComment(event, commentId) {
+            event.target.innerHTML = `
+            <div class="spinner-border spinner-border-sm me-1" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            Loading...
+            `
+
+            setTimeout(() => {
+                const postElement = event.target.closest(".post")
+                const commentCountElement = postElement.querySelector(".comment-count")
+                commentCountElement.innerHTML = Number(commentCountElement.innerHTML) - 1
+                const commentElement = event.target.closest(".card")
+                commentElement.remove()
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>

@@ -30,6 +30,6 @@ class Room extends Model
 
     public function bookings()
     {
-        return $this->belongsToMany(User::class)->withPivot('check_in', 'check_out', 'is_canceled', 'id')->withTimestamps();
+        return $this->belongsToMany(User::class, 'bookings')->withPivot('check_in', 'check_out', 'is_canceled', 'id')->withTimestamps();
     }
 }

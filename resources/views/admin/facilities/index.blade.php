@@ -27,7 +27,7 @@
                 @foreach ($facilities as $facility)
                 <tr>
                   <td>{{ $facility->name }}</td>
-                  <td>{{ $facility->updated_at }}</td>
+                  <td>{{ date('d-m-Y', strtotime($facility->updated_at)) }}</td>
                   <td>
                    <div class="d-flex gap-1">
                     <a href="{{ route('admin.facilities.edit', ['facility' => $facility->id]) }}" class="btn btn-warning btn-sm">

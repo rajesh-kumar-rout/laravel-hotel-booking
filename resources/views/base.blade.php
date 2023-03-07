@@ -11,16 +11,22 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" 
         crossorigin="anonymous"
     >
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <style>
+*{font-family: 'Poppins', sans-serif}
         .home-form {
             display: grid;
             grid-auto-columns: reapt()
         }
+
         @media(max-width: 768px) {
             .room-right {
                 border: none !important;
             }
         }
+
         .booking-room:last-child{
             padding-bottom: 0px !important;
             margin-bottom: 0px !important;
@@ -54,16 +60,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('index') }}">Home</a>
+                        <a class="nav-link {{ Route::currentRouteNamed('index') ? 'active' : '' }}" aria-current="page" href="{{ route('index') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('rooms.index') }}">Rooms</a>
+                        <a class="nav-link {{ Route::currentRouteNamed('rooms.index') ? 'active' : '' }}" href="{{ route('rooms.index') }}">Rooms</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('about') }}">About Us</a>
+                        <a class="nav-link {{ Route::currentRouteNamed('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('contact-us') }}">Contact Us</a>
+                        <a class="nav-link {{ Route::currentRouteNamed('contact') ? 'active' : '' }}" href="{{ route('contact') }}">Contact</a>
                     </li>
 
                     @if (auth()->user())
