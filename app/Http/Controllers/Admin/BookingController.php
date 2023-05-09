@@ -42,6 +42,6 @@ class BookingController extends Controller
          
         $bookings = $query->paginate(3);
         
-        return view('admin.bookings', ['bookings' => $bookings]);
+        return view('admin.bookings.index', ['bookings' => $bookings]);
     }
 }

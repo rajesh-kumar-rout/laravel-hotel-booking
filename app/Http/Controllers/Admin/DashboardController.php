@@ -14,7 +14,7 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.dashboard', [
+        return view('admin.index', [
             'total_sliders' => Slider::count(),
             'total_rooms' => Room::count(),
             'total_bookings' => Booking::count(),

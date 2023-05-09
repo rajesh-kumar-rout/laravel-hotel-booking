@@ -72,7 +72,7 @@ Route::prefix('auth')->group(function(){
 
 Route::prefix('admin')->middleware('auth', 'can:admin')->group(function(){
 
-    Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
+    Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
     
     Route::prefix('sliders')->group(function(){
         
