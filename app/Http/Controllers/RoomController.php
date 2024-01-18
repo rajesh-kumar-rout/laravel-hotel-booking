@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Room;
 use App\Models\Booking;
-use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -18,7 +17,7 @@ class RoomController extends Controller
 
         if($request->check_in > $request->check_out)
         {
-            return redirect()->route('rooms.index');
+            return redirect()->route('room.index');
         }
 
         if($request->check_in && $request->check_out)
@@ -65,11 +64,11 @@ class RoomController extends Controller
             
             $rooms = $query->with('facilities')->get();
 
-            return view('rooms', ['rooms' => $rooms]);
+            return view('room.index', ['rooms' => $rooms]);
         }
 
         $rooms = Room::with('facilities')->get();
 
-        return view('rooms', ['rooms' => $rooms]);
+        return view('room.index', ['rooms' => $rooms]);
     }
 }

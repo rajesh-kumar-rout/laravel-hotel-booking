@@ -11,29 +11,18 @@ class RoomController extends Controller
 {
     public function index()
     {
-        return view('admin.rooms.index', [
+        return view('admin.room.index', [
             'rooms' => Room::all()
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        return view('admin.rooms.create', [
+        return view('admin.room.room', [
             'facilities' => Facility::all()
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -65,41 +54,17 @@ class RoomController extends Controller
         return back()->with('success', 'Room created successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Room $room)
     {
         $facilities = $room->facilities()->select('facilities.id')->get()->map(fn($value) => $value->id)->toArray();
 
-        return view('admin.rooms.edit', [
+        return view('admin.room.room', [
             'room' => $room,
             'facilities' => Facility::all(),
             'room_facilities' => $facilities
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Room $room)
     {
         $request->validate([
@@ -124,7 +89,11 @@ class RoomController extends Controller
 
         if($request->image)
         {
+            $imgUrl = $room->image_url;
+
             $room->image_url = $request->image->store('images/rooms', 'public');
+
+            unlink(public_path("uploads/$imgUrl"));
         }
 
         $room->facilities()->detach();
@@ -136,15 +105,13 @@ class RoomController extends Controller
         return back()->with('success', 'Room updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Room $room)
     {
+        $imgUrl = $room->image_url;
+
         $room->delete();
+
+        unlink(public_path("uploads/$imgUrl"));
 
         return back()->with('success', 'Room deleted successfully');
     }

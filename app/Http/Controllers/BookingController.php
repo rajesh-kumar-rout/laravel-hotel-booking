@@ -12,9 +12,13 @@ class BookingController extends Controller
 {
     public function index(Request $request)
     {
-        $bookings = $request->user()->bookings()->with('facilities')->orderByPivot('created_at', 'desc')->get();
+        $bookings = $request->user()
+            ->bookings()
+            ->with('facilities')
+            ->orderByPivot('created_at', 'desc')
+            ->get();
 
-        return view('bookings', ['bookings' => $bookings]);
+        return view('booking.index', ['bookings' => $bookings]);
     }
 
     public function cancel(Request $request, Booking $booking)
@@ -28,7 +32,7 @@ class BookingController extends Controller
 
     public function create(Room $room)
     {
-        return view('book', ['room' => $room]);
+        return view('booking.book', ['room' => $room]);
     }
 
     public function store(Request $request, Room $room)
@@ -81,6 +85,6 @@ class BookingController extends Controller
             'check_out' => $request->check_out,
         ]);
 
-        return redirect()->route('bookings.index')->with('success', 'Room booked successfully');
+        return redirect()->route('booking.index')->with('success', 'Room booked successfully');
     }
 }

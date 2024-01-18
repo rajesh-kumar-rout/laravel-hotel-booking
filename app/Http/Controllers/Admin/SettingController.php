@@ -10,14 +10,14 @@ class SettingController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.settings.index', [
+        return view('admin.setting.index', [
             'setting' => Setting::first()
         ]);
     }
 
     public function edit(Request $request)
     {
-        return view('admin.settings.edit', [
+        return view('admin.setting.edit', [
             'setting' => Setting::first()
         ]);
     }
@@ -41,6 +41,6 @@ class SettingController extends Controller
 
         $setting->save();
 
-        return redirect()->route('admin.settings.index')->with('success', 'Setting updated successfully');
+        return redirect()->route('admin.setting.index')->with('success', 'Setting updated successfully');
     }
 }

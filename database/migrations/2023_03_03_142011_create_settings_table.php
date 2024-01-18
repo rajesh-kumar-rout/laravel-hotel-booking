@@ -18,9 +18,6 @@ return new class extends Migration
             $table->text('about_us');
             $table->string('email');
             $table->string('contact');
-            $table->string('facebook_url')->nullable();
-            $table->string('instagram_url')->nullable();
-            $table->string('twitter_url')->nullable();
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        return view('admin.users.index', [
+        return view('admin.user.index', [
             'users' => User::all()
         ]);
     }
