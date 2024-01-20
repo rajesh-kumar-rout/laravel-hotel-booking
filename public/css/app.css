@@ -1,0 +1,18 @@
+
+
+.home-form {
+    display: grid;
+    grid-auto-columns: reapt()
+}
+
+@media(max-width: 768px) {
+    .room-right {
+        border: none !important;
+    }
+}
+
+.booking-room:last-child {
+    padding-bottom: 0px !important;
+    margin-bottom: 0px !important;
+    border-width: 0px !important;
+}
